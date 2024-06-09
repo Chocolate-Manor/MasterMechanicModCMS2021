@@ -16,6 +16,25 @@ namespace MasterMechanicCMS2021Mod
             {
                 MelonLogger.Msg("GameMode.SetCurrentMode!");
                 GlobalData.XrayBodyNormal = 0f;
+
+                // this do nothing, but keeping it here in case future changes
+                GlobalData.XrayPartNormal = 0f;
+            }
+        }
+
+
+        [HarmonyPatch(typeof(PartScript), nameof(PartScript.Show))]
+        class PartScriptShowPatch
+        {
+            static void Postfix(PartScript __instance)
+            {
+                MelonLogger.Msg("PartScript.Show!");
+                __instance.Alpha0();
+
+                foreach (PartScript partScript in __instance.unmountWith)
+                {
+                    partScript.Alpha0();
+                }
             }
         }
 
